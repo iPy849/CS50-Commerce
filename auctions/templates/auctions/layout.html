@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'auctions/bootstrap4/css/bootstrap.min.css' %}">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+    </head>
+    
+    <body class="bg-light">
+    
+        <nav class="navbar-expand navbar-light bg-light sticky-top">
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto flex-wrap">
+                    <li class="nav-item ">
+                        <a class="text-primary nav-link" href="{% url 'index' %}" >Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-primary nav-link" href="{% url 'category_selection' %}">Categories</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="text-primary nav-link" href="{% url 'watchlist' %}">Watchlist</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="text-primary nav-link" href="{% url 'create_auction' %}">Create new auction</a>
+                    </li>
+                </ul>
+                <div class>
+                    <ul class="navbar-nav nav-pills">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="disabled text-dark" href="#" aria-disabled="true">
+                                    <button class=" btn btn-sm m-1 bg-transparent " type="button">@{{ user.username }}</button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="text-primary" href="{% url 'logout' %}">
+                                    <button class=" btn btn-sm btn-outline-primary m-1 " type="button">Logout</button>
+                                </a>
+                            </li>
+
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="text-primary" href="{% url 'login' %}">
+                                    <button class="btn btn-sm btn-outline-primary m-1" type="button">Login</button>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="text-primary" href="{% url 'register' %}">
+                                    <button class="btn btn-sm btn-outline-primary m-1" type="button">Register</button>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="w-100">
+        {% if user.won %}
+            {% for auction in user.auctions_won %}
+                <a href="{% url 'winner_notification' auction.id %}" class="d-block w-25 alert-link">
+                    <div class="alert alert-primary" role="alert">
+                        You have won {{ auction.title }} auction
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+        <div class="p-4">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        </script>
+    </body>
+</html>

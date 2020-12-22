@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+{% block title %}Select a category{% endblock %}
+{% block body %}
+    <div class="container">
+        <h1>Select a category to see all auctions belonging to that category</h1>
+        <div class="row border rounded bg-white">
+            {% for category in categories %}
+                <div class="col-2">
+                    <a class="text-{{ category.1 }}" href="{% url 'category' category.0.id %}">
+                        <button class="w-100 btn btn-sm btn-outline-{{ category.1 }} m-1 " type="button">{{ category.0.category }}</button>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

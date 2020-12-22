@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+{% block title %}@{{ user.username }} watchlist{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div id="all_auctions" class="col-sm-12 p-3">
+                {% for auction in watchlist %}
+                        {% if auction.active %}
+                            <a href="{% url 'detail_auction' auction.id %}" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1 border rounded bg-success p-1 text-light">{{ auction.title}}</h5>
+                                    <small class="text-muted text-wrap">${{ auction.current_bid.bid}}</small>
+                                </div>
+                                <div>
+                                    <p class="mb-1 text-wrap">{{ auction.description }}</p>
+                                    <small class="text-muted">{{ auction.created_at }}</small>
+                                </div>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'detail_auction' auction.id %}" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1 border rounded bg-success p-1 text-light">{{ auction.title}}</h5>
+                                    <small class="text-muted text-wrap">${{ auction.current_bid.bid}}</small>
+                                </div>
+                                <div>
+                                    <p class="mb-1 text-wrap">{{ auction.description }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">{{ auction.created_at }}</small>
+                                        <small class="text-success border border-success rounded p-1">Finished</small>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endif %}
+                        {% empty %}
+                                <center><h2>No auctions in you watchlist... yet</h2></center>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- #end region -->    
+    </div>
+
+{% endblock %}
